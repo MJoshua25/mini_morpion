@@ -130,7 +130,7 @@ public class TicTacToeModel {
     public void play(int row, int column) {
 
 
-        if (legalMove(row, column).getValue()) {
+        if (Boolean.TRUE.equals(legalMove(row, column).getValue())) {
 
             board[row][column].setValue(turn.getValue());
             if (colonneWin(column)) {
