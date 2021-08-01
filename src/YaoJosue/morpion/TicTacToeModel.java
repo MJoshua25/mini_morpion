@@ -98,12 +98,16 @@ public class TicTacToeModel {
      */
     public final StringExpression getEndOfGameMessage() {
         String endOfGameMessage;
-        if (winner.getValue() == Owner.FIRST) {
-            endOfGameMessage = "GameOver . le gagnant est le joueur 1";
-        } else if (winner.getValue() == Owner.SECOND) {
-            endOfGameMessage = "GameOver . le gagnant est le joueur 2";
-        } else {
-            endOfGameMessage = "Game Over: Match Nul";
+        switch (winner.getValue()) {
+            case FIRST:
+                endOfGameMessage = "GameOver . le gagnant est le joueur 1";
+                break;
+            case SECOND:
+                endOfGameMessage = "GameOver . le gagnant est le joueur 2";
+                break;
+            default:
+                endOfGameMessage = "Game Over: Match Nul";
+                break;
         }
         return new SimpleStringProperty(endOfGameMessage);
     }
