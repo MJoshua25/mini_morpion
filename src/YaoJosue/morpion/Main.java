@@ -1,4 +1,4 @@
-package sample;
+package YaoJosue.morpion;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

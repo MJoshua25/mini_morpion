@@ -1,4 +1,4 @@
-package sample;
+package YaoJosue.morpion;
 
 public enum Owner {
     NONE, FIRST, SECOND;

@@ -1,4 +1,4 @@
-package sample;
+package YaoJosue.morpion;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
