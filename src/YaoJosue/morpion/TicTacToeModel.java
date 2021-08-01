@@ -113,11 +113,7 @@ public class TicTacToeModel {
     }
 
     public boolean validSquare(int row, int column) {
-        if (board[row][column].getValue() == Owner.NONE) {
-            return true;
-        } else {
-            return false;
-        }
+        return board[row][column].getValue() == Owner.NONE;
     }
 
     public void nextPlayer() {
@@ -130,24 +126,23 @@ public class TicTacToeModel {
     public void play(int row, int column) {
 
 
-        if (Boolean.TRUE.equals(legalMove(row, column).getValue())) {
-
-            board[row][column].setValue(turn.getValue());
-            if (colonneWin(column)) {
-                setWinner(turn.getValue());
-            }
-
-            if (diagWin(row, column)) {
-                setWinner(turn.getValue());
-
-            } else if (rowWin(row)) {
-
-                setWinner(turn.getValue());
-
-            } else this.nextPlayer();
-
-
+        if (!Boolean.TRUE.equals(legalMove(row, column).getValue())) {
+            return;
         }
+
+        board[row][column].setValue(turn.getValue());
+        if (colonneWin(column)) {
+            setWinner(turn.getValue());
+        }
+
+        if (diagWin(row, column)) {
+            setWinner(turn.getValue());
+
+        } else if (rowWin(row)) {
+
+            setWinner(turn.getValue());
+
+        } else this.nextPlayer();
 
 
     }
@@ -159,14 +154,16 @@ public class TicTacToeModel {
      * @return true si c'est le cas
      */
     public boolean colonneWin(int column) {
+        boolean result = true;
 
         for (int i = 0; i < WINNING_COUNT; i++) {
 
             if (board[i][column].getValue() != turn.getValue()) {
-                return false;
+                result = false;
+                break;
             }
         }
-        return true;
+        return result;
     }
 
 
@@ -199,12 +196,16 @@ public class TicTacToeModel {
 
     public boolean diagWin(int row, int column) {
 
-        if (board[0][0].getValue() == turn.getValue() && board[1][1].getValue() == turn.getValue() && board[2][2].getValue() == turn.getValue()) {
-            return true;
-        } else if (board[0][2].getValue() == turn.getValue() && board[1][1].getValue() == turn.getValue() && board[2][0].getValue() == turn.getValue()) {
-            return true;
-        } else return false;
+        return isFirstDiagWin() || isSecondDiagWin();
 
+    }
+
+    private boolean isSecondDiagWin() {
+        return board[0][2].getValue() == turn.getValue() && board[1][1].getValue() == turn.getValue() && board[2][0].getValue() == turn.getValue();
+    }
+
+    private boolean isFirstDiagWin() {
+        return board[0][0].getValue() == turn.getValue() && board[1][1].getValue() == turn.getValue() && board[2][2].getValue() == turn.getValue();
     }
 
     /**
@@ -216,7 +217,7 @@ public class TicTacToeModel {
         return new BooleanBinding() {
             @Override
             protected boolean computeValue() {
-                return (!gameOver().getValue()) && (board[row][column].getValue() == Owner.NONE ? true : false);
+                return (!gameOver().getValue()) && (board[row][column].getValue() == Owner.NONE);
             }
         };
     }
@@ -244,12 +245,13 @@ public class TicTacToeModel {
             protected boolean computeValue() {
                 boolean resultat = true;
                 if (winner.getValue() != Owner.NONE) {
-                    return resultat;
+                    return true;
                 }
                 for (int i = 0; i <= BOARD_HEIGHT - 1; i++) {
                     for (int j = 0; j <= BOARD_WIDTH - 1; j++) {
                         if (board[i][j].getValue() == Owner.NONE && winner.getValue() == Owner.NONE) {
                             resultat = false;
+                            break;
                         }
                     }
                 }
