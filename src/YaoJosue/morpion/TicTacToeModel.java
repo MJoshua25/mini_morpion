@@ -135,18 +135,13 @@ public class TicTacToeModel {
         }
 
         board[row][column].setValue(turn.getValue());
-        if (colonneWin(column)) {
+
+        if (colonneWin(column) || diagWin(row, column) || rowWin(row)) {
             setWinner(turn.getValue());
+
+        } else {
+            this.nextPlayer();
         }
-
-        if (diagWin(row, column)) {
-            setWinner(turn.getValue());
-
-        } else if (rowWin(row)) {
-
-            setWinner(turn.getValue());
-
-        } else this.nextPlayer();
 
 
     }
@@ -180,14 +175,16 @@ public class TicTacToeModel {
 
 
     public boolean rowWin(int row) {
+        boolean result = true;
 
         for (int j = 0; j < WINNING_COUNT; j++) {
 
             if (board[row][j].getValue() != turn.getValue()) {
-                return false;
+                result = false;
+                break;
             }
         }
-        return true;
+        return result;
     }
 
     /**
